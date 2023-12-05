@@ -1,8 +1,14 @@
 "use client";
- 
-const ItemList = ({ setItemName }: { setItemName: any }) => {
-  const list: string[] = ["burger", "pizza", "soda", "tikka"];
- 
+
+const ItemList = ({
+  setItemName,
+  setAllItem,
+}: {
+  setItemName: any;
+  setAllItem: any;
+}) => {
+  const list: string[] = ["burger", "pizza", "soda", "tikka",];
+
   return (
     <section>
       <div className="cursor-pointer bg-gray-400 flex justify-around py-3 ">
@@ -10,7 +16,10 @@ const ItemList = ({ setItemName }: { setItemName: any }) => {
           return (
             <p
               key={index}
-              onClick={(e) => setItemName(e.target)}
+              onClick={(e) => {
+                setAllItem(false);
+                setItemName(e.target);
+              }}
             >
               {e}
             </p>
