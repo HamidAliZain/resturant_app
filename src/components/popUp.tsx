@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import pizza from "../../public/pizza.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
-
+import { CartContext } from "./context";
 const PopUp = ({
   popUp,
   setPopUp,
@@ -21,6 +21,15 @@ const PopUp = ({
   const [coldItems, setColdItems] = useState("");
   const [size, setSize] = useState("");
   price = Number(price);
+  const { cart, setCart } = useContext(CartContext);
+  const cartItems = {
+    name: name,
+    price: price,
+    quantity: countItem,
+    size: size,
+    coldItems: coldItems,
+    subTotal: price * countItem,
+  };
   return (
     <div
       className={
@@ -35,7 +44,7 @@ const PopUp = ({
         <div className="flex flex-col">
           <div className="pb-1">
             <p className=" mt-4 w-full text-xl font-bold tracking-wide px-2">
-              {name}{" "}
+              {name}
             </p>
           </div>
           <div className="flex justify-between items-center mt-3 ">
@@ -46,7 +55,6 @@ const PopUp = ({
         {/* 2nd Item */}
         <div className="border-t-secondary bg-white border-t-2 py-0">
           <p className="bg-gray-400 w-full text-sm py-1 px-2 ">Please Select</p>
-          {/* Size */}
           <div className="flex justify-between items-center mt-3 px-2">
             <label className="text-sm" htmlFor="drink">
               Size
@@ -99,7 +107,6 @@ const PopUp = ({
               <label htmlFor="pakola">Large</label>
             </div>
           </div>
-          {/* Drink */}
           <div
             className={
               type == "soda"
@@ -203,7 +210,16 @@ const PopUp = ({
             >
               cancel
             </div>
-            <div className="bg-secondary py-1 px-2 rounded-md text-white border-2 border-secondary active:bg-white active:text-secondary active:border-2 transition-all ease-linear">
+            <div
+              onClick={() => {
+                if (size.length == 0) {
+                } else if (coldItems.length == 0) {
+                } else {
+                  setCart([...cart, cartItems]);
+                }
+              }}
+              className="bg-secondary py-1 px-2 rounded-md text-white border-2 border-secondary active:bg-white active:text-secondary active:border-2 transition-all ease-linear"
+            >
               Add To Cart
             </div>
           </div>
@@ -340,7 +356,16 @@ const PopUp = ({
             </div>
           </div>
           <div className="border-t-secondary border-t-2 flex justify-between items-center mt-3 px-2 pt-2  flex-row-reverse">
-            <div className="bg-secondary text-white font-bold hidden w-auto text-center p-2 gap-2 rounded-full justify-center cursor-pointer md:flex">
+            <div
+              onClick={() => {
+                if (size.length == 0) {
+                } else if (coldItems.length == 0) {
+                } else {
+                  setCart([...cart, cartItems]);
+                }
+              }}
+              className="bg-secondary text-white font-bold hidden w-auto text-center p-2 gap-2 rounded-full justify-center cursor-pointer md:flex"
+            >
               <p className="text-xs">Add to Cart </p>
               <p className="text-xs">
                 RS {countItem <= 0 ? price : price * countItem}{" "}

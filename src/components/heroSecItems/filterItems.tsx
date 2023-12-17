@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 import pizza from "../../../public/pizza.png";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import PopUp from "../popUp";
 import CartButton from "./cartButton";
+import Loading from "@/app/loading";
 const dataFetch = async () => {
   const fetchData = await fetch("http://localhost:3000/api/items");
   const data = await fetchData.json();
@@ -19,16 +20,18 @@ const FilterdItem = ({
   let [popUp, setPopUp] = useState(false);
   const [apiData, setApiData] = useState<any[]>([]);
   let [itemObj, setItemObj] = useState({ name: "", price: "", type: "" });
+  let [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await dataFetch();
+      setLoading(true);
       setApiData(data.result.rows);
     };
     fetchData();
   }, []);
   let data = apiData;
-   const filterItems = data.filter((e) => {
+  const filterItems = data.filter((e) => {
     return e.type == itemName.textContent;
   });
 
@@ -112,7 +115,7 @@ const FilterdItem = ({
   }
   return (
     <div className="grid grid-cols-1 gap-8 py-4 px-6 sm:grid-cols-2 lg:grid-cols-3 ">
-      {content}{" "}
+      {loading ? content : <Loading />}
       <PopUp
         popUp={popUp}
         setPopUp={setPopUp}
