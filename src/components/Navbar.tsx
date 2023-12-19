@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-
 import Cart from "../../public/cart.svg";
 import logo from "../../public/logo.png";
 import { CgProfile } from "react-icons/cg";
@@ -8,10 +7,14 @@ import Link from "next/link";
 import { CartContext } from "@/components/context";
 import { useContext, useState } from "react";
 import LoginButton from "./LoginButoon/Login";
+import { useUser } from "@auth0/nextjs-auth0/client";
+
 const Navbar = () => {
   const { cart } = useContext(CartContext);
   const [openLoginBar, setOpenLoginBar] = useState(false);
-  console.log(openLoginBar);return (
+  const [imgLink, setImgLink] = useState("");
+  const { user } = useUser();
+   return (
     <header className="relative">
       <nav className="w-full flex justify-between px-6 pt-2  ">
         <Link href="/" className="">
@@ -30,13 +33,22 @@ const Navbar = () => {
             </div>
             <Image src={Cart} alt="cart" className="w-6 " />
           </Link>
-          <CgProfile
-            className="text-2xl"
-            onClick={() => setOpenLoginBar(!openLoginBar)}
-          />
+          {user ? (
+            <img
+              className="w-12 h-12 rounded-full"
+              src={imgLink}
+              alt=""
+              onClick={() => setOpenLoginBar(!openLoginBar)}
+            />
+          ) : (
+            <CgProfile
+              className="text-2xl"
+              onClick={() => setOpenLoginBar(!openLoginBar)}
+            />
+          )}
         </div>
       </nav>
-      <LoginButton openLoginBar={openLoginBar} />
+      <LoginButton openLoginBar={openLoginBar} setImgLink={setImgLink} />
     </header>
   );
 };

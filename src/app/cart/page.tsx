@@ -82,8 +82,7 @@ const cartPage = () => {
             src={checkOut}
             alt="checkout"
             className="w-4 text-xl"
-            onClick={() => console.log()}
-          />
+           />
           <p className="text-xl font-bold ml-7">Check Out</p>
           <p
             className="text-xl font-bold"

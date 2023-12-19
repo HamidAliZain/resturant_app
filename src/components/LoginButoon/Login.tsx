@@ -2,10 +2,16 @@
 import Link from "next/link";
 import React from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-const LoginButton = ({ openLoginBar }: { openLoginBar: any }) => {
+const LoginButton = ({
+  openLoginBar,
+  setImgLink,
+}: {
+  openLoginBar: any;
+  setImgLink: any;
+}) => {
   const { user } = useUser();
   let imageOfLogin: any = user?.picture?.toString();
-  console.log(openLoginBar);
+  setImgLink(imageOfLogin);
   return (
     <>
       {!user && (
